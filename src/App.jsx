@@ -6,7 +6,7 @@ import SignUpForm from "./Signup";
 
 function App() {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null); // State to store the preview URL
+  const [previewUrl, setPreviewUrl] = useState(null); 
   const navigate = useNavigate();
 
   const handleImageChange = (e) => {
@@ -20,22 +20,23 @@ function App() {
     document.getElementById("signup").scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!selectedImage) {
-      alert("Please select an image first.");
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!selectedImage) { 
+      alert("Please select a file first!");
       return;
     }
 
     const formData = new FormData();
-    formData.append("image", selectedImage);
+    formData.append("file", selectedImage); 
 
     try {
-      const response = await fetch("YOUR_API_ENDPOINT", {
+      const response = await fetch("http://localhost:8000/uploadfile/", {
         method: "POST",
         body: formData,
       });
-      // Handle response...
+      const result = await response.json();
+      console.log(result); 
     } catch (error) {
       console.error("Error uploading image:", error);
     }
